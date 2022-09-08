@@ -19,6 +19,10 @@ const schema = new Schema({
     },
     seat:{
         type:Number,
+    },
+    date_created:{
+        type:Date,
+        default:()=>Date.now(),
     }
 })
 

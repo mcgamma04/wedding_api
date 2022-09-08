@@ -31,7 +31,7 @@ UserRouter.post("/", async (req, res) => {
   }
 });
 UserRouter.get("/", async (req, res) => {
-  const users = await userModel.find();
+  const users = await userModel.find().sort({date_created:-1});
   return res.send({ message: "success", users });
 });
 UserRouter.delete("/:id", async (req, res) => {
@@ -46,5 +46,30 @@ UserRouter.delete("/:id", async (req, res) => {
   await user.delete();
   return res.send({ message: "success", user });
 });
+UserRouter.put("/:id", async (req, res) => {
+    const data = req.body
+    const id = req.params.id;
+    if (id == null) {
+      return res.send({ message: "failed", reason: "id field is required" });
+    }
+    let user = await userModel.findById(id);
+    if (user == null) {
+      return res.send({ message: "failed", reason: "user not found" });
+    }
+   user = await user.update(data)
+    return res.send({ message: "success", user });
+})
+UserRouter.get("/:id", async (req, res) => {
+    const id = req.params.id;
+    if (id == null) {
+      return res.send({ message: "failed", reason: "id field is required" });
+    }
+    let user = await userModel.findById(id);
+    if (user == null) {
+      return res.send({ message: "failed", reason: "user not found" });
+    }
+    return res.send({ message: "success", user });
+})
+
 
 export default UserRouter;
