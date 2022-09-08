@@ -7,7 +7,7 @@ const connect = () => {
       useUnifiedTopology: true,
     })
     .then(() => console.log("Database connection established"))
-    .catch(() => console.log(e));
+    .catch((e) => console.log(e));
 };
 
 export default connect;
